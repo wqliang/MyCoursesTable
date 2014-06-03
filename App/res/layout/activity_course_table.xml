@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" 
+    android:background="@drawable/background"
+    android:id="@+id/courseTable"
+    android:baselineAligned="false">
+    <LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="40dip"
+	    android:layout_height="fill_parent"
+	    android:id="@+id/empty"/>
+    
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="1">
+	   
+	    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dip"
+        android:text="@string/monday" 
+        android:background="#ff0000"
+        android:visibility="invisible"/>	
+        <RelativeLayout 
+	        android:id="@+id/monday"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	    </RelativeLayout>    
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_weight="1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+	   
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:visibility="invisible"
+	        android:layout_height="20dip"
+	        android:text="@string/tuesday" 
+	        android:background="#ff0000"/>
+	    <RelativeLayout 
+	        android:id="@+id/tuesday"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	    </RelativeLayout>
+	    
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_weight="1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+	   
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:visibility="invisible"
+	        android:layout_height="20dip"
+	        android:text="@string/wednesday" 
+	        android:background="#ff0000"/>
+	    <RelativeLayout 
+	        android:id="@+id/wednesday"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	    </RelativeLayout>
+	    
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_weight="1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+	   
+	    <TextView
+        	android:layout_width="wrap_content"
+	        android:visibility="invisible"
+	        android:layout_height="20dip"
+	        android:text="@string/thursday" 
+	        android:background="#ff0000"/>
+	    <RelativeLayout 
+	        android:id="@+id/thursday"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	    </RelativeLayout>
+	   
+	    
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_weight="1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+	   
+	    <TextView
+       	    android:layout_width="wrap_content"
+	        android:visibility="invisible"
+	        android:layout_height="20dip"
+	        android:text="@string/friday" 
+	        android:background="#ff0000"/>
+	    <RelativeLayout 
+	        android:id="@+id/friday"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	    </RelativeLayout>
+
+	    
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_weight="1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+	   
+	    <TextView
+        	android:layout_width="wrap_content"
+	        android:visibility="invisible"
+	        android:layout_height="20dip"
+	        android:text="@string/saturday" 
+	        android:background="#ff0000"/>
+	    <RelativeLayout 
+	        android:id="@+id/saturday"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	    </RelativeLayout>
+	    
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_weight="1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+	   
+	    <TextView
+       	    android:layout_width="wrap_content"
+	        android:visibility="invisible"
+	        android:layout_height="20dip"
+	        android:text="@string/sunday" 
+	        android:background="#ff0000"/>
+	    <RelativeLayout 
+	        android:id="@+id/sunday"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	    </RelativeLayout>
+	    
+	</LinearLayout>
+
+</LinearLayout>

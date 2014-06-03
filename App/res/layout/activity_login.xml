@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dip">
+    
+	<!--android:background="@drawable/login"-->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello" 
+        android:layout_gravity="center"/>
+     <ImageView android:id="@+id/imageView"
+		android:layout_width="300dip"
+		android:layout_height="200dip"
+		android:paddingTop="20dip"
+		android:layout_gravity="center"
+		android:src="@drawable/login"
+		android:contentDescription="@string/hello"/>
+
+   	<EditText 
+       	android:id="@+id/et_name"
+       	android:layout_width="fill_parent"
+       	android:layout_height="wrap_content"
+       	android:inputType="number"
+       	android:hint="@string/nameStr"
+       	/>
+
+	<EditText 
+	    android:id="@+id/et_passwd"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:inputType="textPassword"
+	    android:hint="@string/passwdStr"/>
+	
+	
+	<Button 
+	    android:id="@+id/btn_confirm"
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dip"
+	    android:layout_weight="1"
+	    android:text="@string/btn_confirm"
+	    android:background="#800080"
+	    
+	    android:textColor="#ffffff"
+	    android:textSize="20sp"/>
+
+    
+</LinearLayout>

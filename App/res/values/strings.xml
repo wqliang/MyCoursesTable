@@ -1,0 +1,24 @@
+<resources>
+
+    <string name="app_name">SYSU</string>
+    <string name="monday">星期一</string>
+    <string name="tuesday">星期二</string>
+    <string name="wednesday">星期三</string>
+    <string name="thursday">星期四</string>
+    <string name="friday">星期五</string>
+    <string name="saturday">星期六</string>
+    <string name="sunday">星期日</string>
+    <string name="update">重新导入课程表</string>
+    <string name="insert_course">插入课程</string>
+    <string name="notification">通知区</string>
+    <string name="file">资源区</string>
+    <string name="topic">讨论区</string>
+    <string name="coursetable">课程表</string>
+    <string name="course">课程</string>
+    <string name="hello">欢迎使用中大课程表</string>
+    <string name="nameStr">账号</string>
+    <string name="passwdStr">密码</string>
+    <string name="btn_confirm">登陆</string>
+    <string name="btn_cancel">取消</string>
+
+</resources>
