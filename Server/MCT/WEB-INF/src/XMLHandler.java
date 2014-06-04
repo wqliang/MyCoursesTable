@@ -39,7 +39,7 @@ public class XMLHandler {
 			SAXTransformerFactory sff = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
 			TransformerHandler th = sff.newTransformerHandler();
 			Transformer transformer = th.getTransformer();
-			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			transformer.setOutputProperty(OutputKeys.ENCODING, "gbk");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			th.setResult(resultStr);
 			
@@ -48,7 +48,7 @@ public class XMLHandler {
 			th.startElement("", "classes", "classes", attr);
 			attr.clear();
 			
-			attr.addAttribute("", "", "operation", "", "insert");
+			attr.addAttribute("", "", "operation", "", "inssssssssssssssert");
 			th.startElement("", "", "list", attr);
 			attr.clear();
 			
@@ -67,20 +67,20 @@ public class XMLHandler {
 			th.characters(cour.getTeacher().toCharArray(), 0, cour.getTeacher().length());
 			th.endElement("",  "", "teacher");
 			
-			//th.startElement("", "", "start", attr);
-			//th.characters(Integer.toString(cour.getStart()).toCharArray(), 0, 
-			//		Integer.toString(cour.getStart()).length());
-			//th.endElement("", "", "start");
+			th.startElement("", "", "start", attr);
+			th.characters(Integer.toString(cour.getStart()).toCharArray(), 0, 
+					Integer.toString(cour.getStart()).length());
+			th.endElement("", "", "start");
 			
-			//th.startElement("",  "", "duration", attr);
-			//th.characters(Integer.toString(cour.getDuration()).toCharArray(), 0,
-			//		Integer.toString(cour.getDuration()).length());
-			//th.endElement("",  "", "duration");
+			th.startElement("",  "", "duration", attr);
+			th.characters(Integer.toString(cour.getDuration()).toCharArray(), 0,
+					Integer.toString(cour.getDuration()).length());
+			th.endElement("",  "", "duration");
 			
-			//th.startElement("",  "", "weekday", attr);
-			//th.characters(Integer.toString(cour.getWeekday()).toCharArray(), 0,
-			//		Integer.toString(cour.getWeekday()).length());
-			//th.endElement("",  "", "weekday");
+			th.startElement("",  "", "weekday", attr);
+			th.characters(Integer.toString(cour.getWeekday()).toCharArray(), 0,
+					Integer.toString(cour.getWeekday()).length());
+			th.endElement("",  "", "weekday");
 			
 			th.endElement("", "", "course");
 			th.endElement("", "", "list");
@@ -91,10 +91,12 @@ public class XMLHandler {
 		} catch (TransformerConfigurationException e) {
 			xmlStr = "TransformerConfigurationException";
 		} catch (SAXException e) {
-			xmlStr = "SAXException";
+			xmlStr = "SAXException"+e.getMessage();
 		} catch (Exception e) {
 			if (cour == null)
 				xmlStr = "Exception: cour is null";
+			else
+				xmlStr = "cour is ont null";
 		}
 		//Log.e("TEST","Éú³ÉµÄ"+xmlStr);
 		return xmlStr;

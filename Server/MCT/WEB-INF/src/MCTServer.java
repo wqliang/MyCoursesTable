@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -23,13 +22,16 @@ public class MCTServer extends HttpServlet{
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException{
-		
-		
-		
-		String resp = "this is a response from server!";
-		resp = xmlhandle.getResponse("dddd");
-		
-		response.setContentType("text/xml; charset=UTF-8");
-		response.getOutputStream().write(resp.getBytes("UTF-8"));
+		BufferedReader br = request.getReader();
+		String line;
+		String resp = "";
+		while ((line = br.readLine()) != null){
+			resp += line + "\n"; 
+		}
+		//resp = "this is a response from server!";
+		String rsp = xmlhandle.getResponse(resp);
+		response.setCharacterEncoding("gbk");
+		response.setContentType("text/xml; charset=gbk");
+		response.getOutputStream().write(rsp.getBytes("gbk"));
 	}
 }
