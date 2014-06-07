@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/insert_table">"
+    <EditText
+        android:id="@+id/course_name"
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:hint="@string/course_name"/>
+    
+    <LinearLayout
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="left">
+        <Spinner
+            android:id="@+id/course_date"
+	    	android:layout_width="wrap_content"   
+	    	android:layout_height="wrap_content"  
+	    	android:entries="@array/date"   
+	    	android:prompt="@string/prompt"/>
+        <!--  
+        <TextView
+            android:layout_width="wrap_content"   
+	    	android:layout_height="wrap_content"  
+            android:text="from"
+            android:textColor="#ffffff"/>-->
+        <Spinner
+            android:id="@+id/course_date_from"
+	    	android:layout_width="wrap_content"   
+	    	android:layout_height="wrap_content"  
+	    	android:entries="@array/ca"   
+	    	android:prompt="@string/prompt2"/> 
+        
+        
+        <TextView
+            android:layout_width="wrap_content"   
+	    	android:layout_height="wrap_content"  
+            android:text="to"
+            android:textColor="#ffffff"/>
+        
+        <Spinner
+            android:id="@+id/course_date_to"
+	    	android:layout_width="wrap_content"   
+	    	android:layout_height="wrap_content"  
+	    	android:entries="@array/ca"   
+	    	android:prompt="@string/prompt2"/> 
+    </LinearLayout>
+	 
+    <EditText
+        android:id="@+id/course_addr"
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:hint="@string/course_addr"/>
+
+    <EditText
+        android:id="@+id/course_teacher"
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/course_teacher"
+        android:textSize="20sp" >
+    </EditText>
+
+</LinearLayout>

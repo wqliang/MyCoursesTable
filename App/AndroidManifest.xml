@@ -24,6 +24,10 @@
             android:label="@string/course" >
         </activity>
         <activity
+            android:name="activity.CommentList"
+            android:label="@string/course" >
+        </activity>
+        <activity
             android:name="activity.FileList"
             android:label="@string/file" >
         </activity>
