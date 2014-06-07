@@ -1,6 +1,7 @@
 package classes;
 
 public class Course {
+	int cid;
 	private String name;
 	private String addr;
 	private int start;
@@ -8,13 +9,18 @@ public class Course {
 	private int weekday;
 	private String teacher;
 	
-	public Course(String name, String addr, String teacher, int weekday, int start, int duration){
+	public Course(int cid, String name, String addr, String teacher, int weekday, int start, int duration){
+		this.cid = cid;
 		this.name = name;
 		this.addr = addr;
 		this.teacher = teacher;
 		this.weekday = weekday;
 		this.start = start;
 		this.duration = duration;
+	}
+	
+	public int getCid(){
+		return cid;
 	}
 	
 	public void setName(String new_name){

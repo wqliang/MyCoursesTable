@@ -1,69 +1,64 @@
 package controllers;
 
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.naming.*;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
-
-//import com.mysql.jdbc.PreparedStatement;
+import java.util.ArrayList;
 
 import classes.Course;
 
 public class CourseController {
 
-	static Connection db = null;
-	static PreparedStatement pst = null;
-	ResultSet rs = null;
-	
-	public static Connection getDBConnection(){
-		Connection dbconn = null;
-		try{
-			String url = "jdbc:mysql://localhost:3306/coursestable";
-			Class.forName("com.mysql.jdbc.Driver");
-			dbconn = DriverManager.getConnection(url,"root","admin");
-		} catch(Exception e){
-			System.out.println("database connect faild!" + e.getMessage());
-		}
-		return dbconn;
-	}
-	
-	public Course getone(){
-		return new Course("geton", "getone", "getone", 1, 2, 3);
-	}
-	
-	public Course getOneCourse(/*Course cour*/){
-		Course result = null;
-		try{
-			db = getDBConnection();
-			String sql = "select * from course where cid = 1";
-			pst = (PreparedStatement) db.prepareStatement(sql);
-			ResultSet rs = pst.executeQuery(sql);
-			
+	public ArrayList<Course> getAllCourse(int uid){
+		ArrayList<Course> courses = new ArrayList<Course>();
+		SqlPerformer sp = new SqlPerformer();
+		String sql = "select * from course where uid = " + uid;
+		ResultSet rs = null;
+		rs = sp.query(sql);
+		try {
 			while (rs.next()){
+				int cid = rs.getInt("cid");
 				String name = rs.getString("name");
 				String addr = rs.getString("addr");
 				String teacher = rs.getString("teacher");
 				int weekday = rs.getInt("weekday");
 				int start = rs.getInt("start");
 				int duration = rs.getInt("duration");
-			
-				result = new Course(name, addr, teacher, weekday, start, duration);
-				//System.out.println(name + " " + addr + " " + time + " " + duration + " " + teacher);
+				courses.add(new Course(cid, name, addr, teacher, weekday, start, duration));
 			}
-			db.close();
-		} catch(SQLException e){
-			return new Course("connection faild",e.getMessage(),"qqq",1,1,1);
+		} catch (SQLException e) {
+			MCTLog log = new MCTLog();
+	        log.write("Exception in CourseController.getAllCourses"+e.getMessage());
+		}
+		return courses;
+	}
+	
+	public Course getone(){
+		return new Course(1,"geton", "getone", "getone", 1, 2, 3);
+	}
+	
+	public Course getOneCourse(/*Course cour*/){
+		Course result = null;
+		//try{
+		//	db = getDBConnection();
+		//	String sql = "select * from course where cid = 1";
+		//	pst = (PreparedStatement) db.prepareStatement(sql);
+		//	ResultSet rs = pst.executeQuery(sql);
+			
+		//	while (rs.next()){
+		//		String name = rs.getString("name");
+		//		String addr = rs.getString("addr");
+		//		String teacher = rs.getString("teacher");
+		//		int weekday = rs.getInt("weekday");
+		//		int start = rs.getInt("start");
+		//		int duration = rs.getInt("duration");
+			
+		//		result = new Course(1,name, addr, teacher, weekday, start, duration);
+				//System.out.println(name + " " + addr + " " + time + " " + duration + " " + teacher);
+		//	}
+		//	db.close();
+		//} catch(SQLException e){
+		//	return new Course(1,"connection faild",e.getMessage(),"qqq",1,1,1);
 			//System.out.println("query failed!" + e.getMessage());
-		} 
+		//} 
 		return result;//new Course("name", "ada","dfaf",1,1,1);
 	}
 	

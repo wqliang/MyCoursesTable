@@ -1,7 +1,5 @@
 package classes;
 
-//implemented by JiaLi;
-
 public class Topic {
 	private int tid;
 	private int cid;
