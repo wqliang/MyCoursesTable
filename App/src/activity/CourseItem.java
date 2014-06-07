@@ -39,9 +39,9 @@ public class CourseItem extends Activity{
 		Intent intent=this.getIntent();
 		Bundle bundle=intent.getExtras();
 		CourseInfo courseInfo=(CourseInfo)bundle.getSerializable("course");
-		courseName.setText("课程名："+courseInfo.getName());
+		courseName.setText("课程："+courseInfo.getName());
 		courseAddr.setText("地址："+courseInfo.getAddr());
-		String time = courseInfo.getStart()+ "~" + (courseInfo.getDuration()+courseInfo.getStart());
+		String time = "星期" + courseInfo.getDate()+"   第"+courseInfo.getStart()+ "~" + (courseInfo.getDuration()+courseInfo.getStart());
 		courseTime.setText("时间："+ time + "节");
 		courseTeacher.setText("教师："+courseInfo.getTeacher());
 		

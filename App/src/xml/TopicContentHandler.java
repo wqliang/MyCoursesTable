@@ -22,7 +22,7 @@ public class TopicContentHandler extends DefaultHandler{
 			topicInfo.setPublisher(tmp);
 		}else if(tagName.equals("update")){
 			topicInfo.setUpdate(tmp);
-		}else if(tagName.equals("detail")){
+		}else if(tagName.equals("title")){
 			topicInfo.setDetail(tmp);
 		}
 	}

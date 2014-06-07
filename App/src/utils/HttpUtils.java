@@ -11,7 +11,8 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpUtils {
 	// 基础URL
-	public static final String BASE_URL="http://10.0.2.2/course/";
+	//public static final String BASE_URL="http://10.0.2.2/course/";
+	public static final String BASE_URL="http://172.18.159.201:8080/MCT/servlet/MCTServer";
 	// 获得Get请求对象request
 	public static HttpGet getHttpGet(String url){
 		//创建请求对象
@@ -50,6 +51,9 @@ public class HttpUtils {
 				result = EntityUtils.toString(response.getEntity());
 				return result;
 			}
+			else if(response.getStatusLine().getStatusCode()==404){
+				return "404";
+			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 			result = "网络异常！";
@@ -71,15 +75,22 @@ public class HttpUtils {
 			if(response.getStatusLine().getStatusCode()==200){
 				// 获得响应
 				result = EntityUtils.toString(response.getEntity());
+				System.out.println("result------>"+ result);
 				return result;
+			}
+			else if(response.getStatusLine().getStatusCode()==404){
+				System.out.println("yes-----404");
+				return "404";
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 			result = "网络异常！";
+			System.out.println("result------>"+ result);
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
 			result = "网络异常！";
+			System.out.println("result------>"+ result);
 			return result;
 		}
         return null;

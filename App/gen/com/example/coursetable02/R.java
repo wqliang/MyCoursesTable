@@ -16,19 +16,20 @@ public final class R {
     }
     public static final class drawable {
         public static final int background=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int login=0x7f020002;
+        public static final int font_page=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int login=0x7f020003;
     }
     public static final class id {
         public static final int btn_confirm=0x7f07001a;
         public static final int comment=0x7f070000;
-        public static final int comment_author=0x7f070026;
-        public static final int comment_content=0x7f070025;
+        public static final int comment_author=0x7f070025;
+        public static final int comment_content=0x7f070024;
         public static final int courseTable=0x7f07000c;
         public static final int course_addr=0x7f070007;
-        public static final int course_date=0x7f070022;
-        public static final int course_date_from=0x7f070023;
-        public static final int course_date_to=0x7f070024;
+        public static final int course_date=0x7f070021;
+        public static final int course_date_from=0x7f070022;
+        public static final int course_date_to=0x7f070023;
         public static final int course_name=0x7f070005;
         public static final int course_teacher=0x7f070008;
         public static final int course_time=0x7f070006;
@@ -39,32 +40,31 @@ public final class R {
         public static final int et_name=0x7f070018;
         public static final int et_passwd=0x7f070019;
         public static final int file=0x7f070015;
-        public static final int file_name=0x7f070027;
-        public static final int file_size=0x7f070028;
+        public static final int file_name=0x7f070026;
+        public static final int file_size=0x7f070027;
         public static final int friday=0x7f070012;
         public static final int getFile=0x7f07000b;
-        public static final int getMoreNotification=0x7f07001d;
-        public static final int getMoreTopic=0x7f070020;
+        public static final int getMoreTopic=0x7f07001f;
         public static final int getNotification=0x7f070009;
         public static final int getTopic=0x7f07000a;
         public static final int imageView=0x7f070017;
-        public static final int insert_table=0x7f070021;
+        public static final int insert_table=0x7f070020;
         public static final int listLinearLayout=0x7f070016;
         public static final int monday=0x7f07000e;
         public static final int newComment=0x7f070004;
         public static final int newNotification=0x7f07001c;
-        public static final int newTopic=0x7f07001f;
+        public static final int newTopic=0x7f07001e;
         public static final int notification=0x7f07001b;
-        public static final int notification_name=0x7f070029;
-        public static final int notification_publisher=0x7f07002a;
-        public static final int notification_time=0x7f07002b;
+        public static final int notification_name=0x7f070028;
+        public static final int notification_publisher=0x7f070029;
+        public static final int notification_time=0x7f07002a;
         public static final int saturday=0x7f070013;
         public static final int sunday=0x7f070014;
         public static final int thursday=0x7f070011;
-        public static final int topic=0x7f07001e;
-        public static final int topic_name=0x7f07002c;
-        public static final int topic_publisher=0x7f07002d;
-        public static final int topic_update=0x7f07002e;
+        public static final int topic=0x7f07001d;
+        public static final int topic_name=0x7f07002b;
+        public static final int topic_publisher=0x7f07002c;
+        public static final int topic_update=0x7f07002d;
         public static final int tuesday=0x7f07000f;
         public static final int wednesday=0x7f070010;
     }
@@ -76,11 +76,12 @@ public final class R {
         public static final int activity_login=0x7f030004;
         public static final int activity_notification_list=0x7f030005;
         public static final int activity_topic_list=0x7f030006;
-        public static final int insert_course=0x7f030007;
-        public static final int item_comment=0x7f030008;
-        public static final int item_file=0x7f030009;
-        public static final int item_notification=0x7f03000a;
-        public static final int item_topic=0x7f03000b;
+        public static final int font_page=0x7f030007;
+        public static final int insert_course=0x7f030008;
+        public static final int item_comment=0x7f030009;
+        public static final int item_file=0x7f03000a;
+        public static final int item_notification=0x7f03000b;
+        public static final int item_topic=0x7f03000c;
     }
     public static final class string {
         public static final int app_name=0x7f050000;

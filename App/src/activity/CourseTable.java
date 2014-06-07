@@ -8,26 +8,40 @@ import java.util.List;
 import javax.xml.parsers.SAXParserFactory;
 
 import model.CourseInfo;
+import model.UserInfo;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import utils.HttpUtils;
 import xml.CourseTableContentHandler;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import com.example.coursetable02.R;
+import com.example.coursetable02.R.layout;
 
 import db.DatabaseHelper;
 import download.HttpDownloader;
@@ -84,12 +98,11 @@ public class CourseTable extends Activity{
 			System.out.println(c);
 			addToCourseTable(c);
 		}
+		cursor.close();
 		db.close();
-	}
-	//这个应该放在首页，登陆界面，创建我们的本地数据库
-	private void CreateDatabase() {
-		DatabaseHelper dbHelper = new DatabaseHelper(CourseTable.this,"course_table_db");
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		if(courseInfos.size()==0){
+			updateFromServer();
+		}
 	}
 	private void updateFromServer() {
 		// TODO Auto-generated method stub
@@ -100,7 +113,8 @@ public class CourseTable extends Activity{
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.execSQL(sql);
 		//从服务器搞到课程数据，是一个列表？或者从本地数据库？
-        String xml = downloadXML("http://10.0.2.2/course/course.xml");
+        //String xml = downloadXML("http://10.0.2.2/course/course.xml");
+        String xml = sendToServer();
         //System.out.println(xml);
         
         //对xml文件进行解析，并将解析结果放置到CourseInfos对象当中，并将CourseInfo对象放置到List对象当中
@@ -118,6 +132,53 @@ public class CourseTable extends Activity{
         }
         db.close();
 	}
+	
+	
+	private String sendToServer() {
+		// TODO Auto-generated method stub     
+		//operation = login
+		//		uid = 用户id
+		//		ps = 所属课程ID
+		UserInfo user = UserInfo.getInstance(); 
+		String uid = user.getId();
+		String ps = user.getPassword();
+		NameValuePair nameValuePair1 = new BasicNameValuePair("operation","getAllC");
+		NameValuePair nameValuePair2 = new BasicNameValuePair("name",uid);
+		NameValuePair nameValuePair3 = new BasicNameValuePair("password",ps);
+		List<NameValuePair> content = new ArrayList<NameValuePair>();
+		content.add(nameValuePair1);
+		content.add(nameValuePair2);
+		content.add(nameValuePair3);
+		
+		System.out.println(content);
+		//创建请求体
+		//UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(content);  
+		HttpEntity requestHttpEntity=null;
+		try {
+			requestHttpEntity = new UrlEncodedFormEntity(content);
+			HttpPost  httpPost = new HttpPost(HttpUtils.BASE_URL);
+			httpPost.setEntity(requestHttpEntity); 
+			String result = HttpUtils.queryStringForPost(httpPost);
+			System.out.println(result);
+			if(result != "404") {
+				return result;
+			}else {
+				showDialog("发布失败！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private void showDialog(String str) {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(str).setPositiveButton("确定", null);
+    	AlertDialog dialog = builder.create();
+    	dialog.show();
+    }
+	
+	
 	private void updateLocalDatabase(CourseInfo courseInfo) {
 		//生成ContentValues对象
 		ContentValues values = new ContentValues();
@@ -134,7 +195,6 @@ public class CourseTable extends Activity{
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		System.out.println(values);
 				db.insert("course", null, values);
-		//db.insert("course", getNullColumnHack(), values);
 		System.out.println("insert----"+courseInfo.getId());
 	}
 	private void addToCourseTable(CourseInfo courseInfo) {
@@ -197,7 +257,6 @@ public class CourseTable extends Activity{
             bundle.putSerializable("course", courseInfo);
             intent.putExtras(bundle);
             startActivity(intent);
-            //Work_01.this.finish(); 
 		}
 
 	}
@@ -209,10 +268,6 @@ public class CourseTable extends Activity{
 			CourseTableContentHandler courseTableContentHandler = new CourseTableContentHandler(infos);
 			xmlReader.setContentHandler(courseTableContentHandler);
 			xmlReader.parse(new InputSource(new StringReader(xmlStr)));
-			for (Iterator<CourseInfo> iterator = infos.iterator(); iterator.hasNext();) {
-				CourseInfo courseInfo = (CourseInfo) iterator.next();
-				//System.out.println(courseInfo);
-			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -239,18 +294,121 @@ public class CourseTable extends Activity{
 			updateFromServer();
 		}
 		else if(item.getItemId()==INSERT){
-			//updateCourse();
+			insertCourse();
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	private void updateCourse() {
+	private void insertCourse() {
 		// TODO Auto-generated method stub
-		DatabaseHelper dbHelper = new DatabaseHelper(CourseTable.this,"course_table_db");
+		//showDialog("插入课程");
+		/*DatabaseHelper dbHelper = new DatabaseHelper(CourseTable.this,"course_table_db");
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("date",3 );
 		//表名，修改的值，占位符
-		db.update("course", values, "id=?", new String[]{"0001"});
+		db.update("course", values, "id=?", new String[]{"0001"});*/
 	}
 	
+	
+	
+	private void showDialog() {
+    	
+    	
+		
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	LayoutInflater inflater = getLayoutInflater();
+    	View layout = inflater.inflate(R.layout.insert_course,
+    	     (ViewGroup) findViewById(R.id.insert_table));
+    	builder.setView(layout);
+    	builder.setMessage("插入课程").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+            	final String timeString[] = {null};
+            	final CourseInfo insertCourse = new CourseInfo();
+            	EditText name = (EditText)findViewById(R.id.course_name);
+            	EditText addr = (EditText)findViewById(R.id.course_addr);
+            	EditText teacher = (EditText)findViewById(R.id.course_teacher);
+            	
+                String inputName = name.getText().toString();
+                String inputAddr = addr.getText().toString();
+                String inputTeacher = teacher.getText().toString();
+                insertCourse.setAddr(inputAddr);
+                insertCourse.setName(inputName);
+                insertCourse.setTeacher(inputTeacher);
+                Spinner spinnerDate = (Spinner) findViewById(R.id.course_date);
+            	Spinner spinnerDate_from = (Spinner) findViewById(R.id.course_date_from);
+            	Spinner spinnerDate_to = (Spinner) findViewById(R.id.course_date_to);
+            	spinnerDate.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
+                {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                    int arg2, long arg3) {
+                            // TODO Auto-generated method stub
+                    	//String InputDate = CourseTable.this.getResources().getStringArray(R.array.date)[arg2];
+                            //设置显示当前选择的项
+                        arg0.setVisibility(View.VISIBLE);
+                        //insertCourse.setDate(Integer.parseInt(InputDate));
+                        insertCourse.setDate(arg2);
+                    }
+
+        			@Override
+        			public void onNothingSelected(AdapterView<?> arg0) {
+        				// TODO Auto-generated method stub
+        				
+        			}
+                        
+                });
+            	spinnerDate_from.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
+                {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                    int arg2, long arg3) {
+                            // TODO Auto-generated method stub
+                    	timeString[0] = CourseTable.this.getResources().getStringArray(R.array.date)[arg2];
+                            //设置显示当前选择的项
+                        arg0.setVisibility(View.VISIBLE);
+                        insertCourse.setDate(Integer.parseInt(timeString[0]));
+                    }
+
+        			@Override
+        			public void onNothingSelected(AdapterView<?> arg0) {
+        				// TODO Auto-generated method stub
+        				
+        			}
+                        
+                });
+            	spinnerDate_to.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
+                {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                    int arg2, long arg3) {
+                            // TODO Auto-generated method stub
+                    	timeString[1] = CourseTable.this.getResources().getStringArray(R.array.date)[arg2];
+                            //设置显示当前选择的项
+                        arg0.setVisibility(View.VISIBLE);
+                    }
+
+        			@Override
+        			public void onNothingSelected(AdapterView<?> arg0) {
+        				// TODO Auto-generated method stub
+        				
+        			}
+                        
+                });
+                insertCourse.setDuration(Integer.parseInt(timeString[0])-Integer.parseInt(timeString[1]));
+                insertCourse.setId(Math.random() * 10000+"");
+                System.out.println(insertCourse);
+                //addToCourseTable(insertCourse);
+				//updateLocalDatabase(insertCourse);
+            }
+        });
+    	
+    	builder.setMessage("插入课程").setNeutralButton("取消", null);
+    	AlertDialog dialog = builder.create();
+    	dialog.show();
+    }
+
 }

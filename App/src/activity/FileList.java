@@ -10,11 +10,18 @@ import java.util.List;
 import javax.xml.parsers.SAXParserFactory;
 
 import model.FileInfo;
+import model.UserInfo;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
 import service.DownloadService;
+import utils.HttpUtils;
 import xml.FlieListContentHandler;
 
 import com.example.coursetable02.R;
@@ -22,6 +29,7 @@ import com.example.coursetable02.R;
 
 import download.HttpDownloader;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,12 +66,49 @@ public class FileList extends ListActivity {
 		
 		//下载包含文件信息的xml文件
 		String xml = downloadXML("http://10.0.2.2/course/file.xml");
+		//String xml = getFileFromServer();
 		//System.out.println("xml----------------" + xml);
 		//对xml文件进行解析，并将解析结果放置到fileInfos对象当中，并将fileInfo对象放置到List对象当中
 		fileInfos = parse(xml);
 		SimpleAdapter simpleAdapter = buildSimpleAdapter(fileInfos);
 		//将simpleAdapter对象设置到listActivity当中
 		setListAdapter(simpleAdapter);
+	}
+	private String getFileFromServer() {
+		// TODO Auto-generated method stub     
+				//operation = getF
+				//		uid = 用户id
+				//		ps = 所属课程ID
+		UserInfo user = UserInfo.getInstance(); 
+		String uid = user.getId();
+		String ps = user.getPassword();
+		NameValuePair nameValuePair1 = new BasicNameValuePair("operation","getF");
+		NameValuePair nameValuePair2 = new BasicNameValuePair("name",uid);
+		NameValuePair nameValuePair3 = new BasicNameValuePair("password",ps);
+		List<NameValuePair> content = new ArrayList<NameValuePair>();
+		content.add(nameValuePair1);
+		content.add(nameValuePair2);
+		content.add(nameValuePair3);
+		
+		System.out.println(content);
+		//创建请求体
+		//UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(content);  
+		HttpEntity requestHttpEntity=null;
+		try {
+			requestHttpEntity = new UrlEncodedFormEntity(content);
+			HttpPost  httpPost = new HttpPost(HttpUtils.BASE_URL);
+			httpPost.setEntity(requestHttpEntity); 
+			String result = HttpUtils.queryStringForPost(httpPost);
+			System.out.println(result);
+			if(result != "404") {
+				return result;
+			}else {
+				showDialog("获取失败！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	private String downloadXML(String urlStr){
 		HttpDownloader httpDownloader = new HttpDownloader();
@@ -108,4 +153,10 @@ public class FileList extends ListActivity {
 		//通知用户下载的结果
 		super.onListItemClick(l, v, position, id);
 	}
+	private void showDialog(String str) {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(str).setPositiveButton("确定", null);
+    	AlertDialog dialog = builder.create();
+    	dialog.show();
+    }
 }

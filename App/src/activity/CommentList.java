@@ -10,6 +10,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import model.CourseInfo;
 import model.TopicInfo;
+import model.UserInfo;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -102,10 +103,12 @@ private void showDialog() {
 				//		tid = topicID
 				//		uid = 用户id
 				//		detail = 评论内容
+				UserInfo user = UserInfo.getInstance(); 
+				String uid = user.getId();
 				NameValuePair nameValuePair1 = new BasicNameValuePair("operation","addCM");
 				NameValuePair nameValuePair2 = new BasicNameValuePair("tid",topicInfo.getId());
-				NameValuePair nameValuePair3 = new BasicNameValuePair("uid","1");
-				NameValuePair nameValuePair4 = new BasicNameValuePair("tid",inputContent);
+				NameValuePair nameValuePair3 = new BasicNameValuePair("uid",uid);
+				NameValuePair nameValuePair4 = new BasicNameValuePair("detail",inputContent);
 				List<NameValuePair> content = new ArrayList<NameValuePair>();
 				content.add(nameValuePair1);
 				content.add(nameValuePair2);
@@ -122,7 +125,7 @@ private void showDialog() {
 					httpPost.setEntity(requestHttpEntity); 
 					String result = HttpUtils.queryStringForPost(httpPost);
 					System.out.println(result);
-					if(result != null) {
+					if(result != "404") {
 						showDialog("发布成功！");
 						updateListView();
 					}else {
@@ -157,7 +160,6 @@ private void showDialog() {
 			map.put("update", fi.getUpdate());
 			list.add(map);
 		}
-		System.out.println("???????????????????????????????????????");
 		System.out.println(list);
 		//创建一个simpleAdapter对象
 		SimpleAdapter simpleAdapter = new SimpleAdapter(this,list,R.layout.item_comment,new String[]{"publisher","detail"},new int[]{R.id.comment_author,R.id.comment_content});
@@ -167,7 +169,8 @@ private void showDialog() {
 	private void updateListView(){
 		
 		//下载包含文件信息的xml文件
-		String xml = downloadXML("http://10.0.2.2/course/comments.xml");
+		//String xml = downloadXML("http://10.0.2.2/course/comments.xml");
+		String xml = getFromServer();
 		System.out.println("xml----------------" + xml);
 		//对xml文件进行解析，并将解析结果放置到TopicInfos对象当中，并将TopicInfo对象放置到List对象当中
 		TopicInfos = parse(xml);
@@ -201,4 +204,37 @@ private void showDialog() {
 		}
 		return infos;
 	}
+	
+	private String getFromServer() {
+		// TODO Auto-generated method stub     
+		//operation = getT
+		//cid = 课程id
+		UserInfo user = UserInfo.getInstance(); 
+		String uid = user.getId();
+		NameValuePair nameValuePair1 = new BasicNameValuePair("operation","getC");
+		NameValuePair nameValuePair2 = new BasicNameValuePair("tid",topicInfo.getId());
+		List<NameValuePair> content = new ArrayList<NameValuePair>();
+		content.add(nameValuePair1);
+		content.add(nameValuePair2);
+		
+		System.out.println(content);
+		//创建请求体
+		//UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(content);  
+		HttpEntity requestHttpEntity=null;
+		try {
+			requestHttpEntity = new UrlEncodedFormEntity(content);
+			HttpPost  httpPost = new HttpPost(HttpUtils.BASE_URL);
+			httpPost.setEntity(requestHttpEntity); 
+			String result = HttpUtils.queryStringForPost(httpPost);
+			System.out.println(result);
+			if(result != "404") {
+				return result;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 }

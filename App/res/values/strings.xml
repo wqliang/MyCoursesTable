@@ -20,5 +20,11 @@
     <string name="passwdStr">密码</string>
     <string name="btn_confirm">登陆</string>
     <string name="btn_cancel">取消</string>
-
+    <string name="course_name">课程名</string>
+    <string name="course_addr">课程地点</string>
+	<string name="course_time">课程时间</string>
+	<string name="course_teacher">教师</string> 
+    <string name="prompt">选择课程星期几上课</string>
+    <string name="prompt2">选择课程节数</string>
+    <string name="more">更多</string>
 </resources>

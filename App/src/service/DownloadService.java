@@ -41,7 +41,8 @@ public class DownloadService extends Service {
 		public void run() {
 			// TODO Auto-generated method stub
 			//下载地址为http://10.0.2.2/course/files/filename.txt
-			String fileUrl = "http://10.0.2.2/course/files/"+fileinfo.getFilename();
+			//String fileUrl = "http://10.0.2.2/course/files/"+fileinfo.getFilename();
+			String fileUrl = "http://172.18.159.201:8080/MCT/servlet/MCTServer/"+fileinfo.getFilename();
 			//生成下载文件所用的对象
 			HttpDownloader httpDownloader = new HttpDownloader();
 			//将文件下载到sd卡当中，并储存到SDCard当中
